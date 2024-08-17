@@ -8,7 +8,7 @@ import { Home } from '../components/home/home'
 import { FavoriteList } from '../components/songList/favoriteList'
 import { Layout } from '../components/layout/layout'
 import { Profile } from '../components/profile/profile'
-import { PageNotFound } from '../components/pageNotFound/PageNotFound'
+/* import { PageNotFound } from '../components/pageNotFound/PageNotFound' */
 import { Playlist } from '../components/playlist/playlist'
 import { OtpVerification } from '../pages/OtpVerification'
 import { PlaylistSong } from '../components/playlistSong/playlistSong'
@@ -38,7 +38,7 @@ const routes = createBrowserRouter(
                 },
                 {
                     path: "*",
-                    element: <PageNotFound />
+                    element: <div>PageNotFound</div>//<PageNotFound /> 
                 }
             ]
         }, 
