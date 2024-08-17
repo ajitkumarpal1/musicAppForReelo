@@ -1,0 +1,11 @@
+.widthOfProgresbar {
+    width: calc(100vw - 60px);
+    margin-left: 30px;
+}
+
+@media (max-width: 640px) {
+    .widthOfProgresbar {
+        width: 100vw;
+        margin-left: 0px;
+    }
+}

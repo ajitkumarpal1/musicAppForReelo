@@ -1,0 +1,9 @@
+/* min-width: 768px */
+.scroleWidthNone{
+    scrollbar-width: none;
+}
+@media (max-width: 640px) { 
+    .navWidth{
+        width: 100vw;
+    }
+ }
