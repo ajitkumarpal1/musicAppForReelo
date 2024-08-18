@@ -8,6 +8,12 @@ dotenv.config();
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server:{
+    host: '0.0.0.0',
+    fs: {
+      strict: false
+    }
+  },
   plugins: [
     react(),
     vitePluginSvgr({

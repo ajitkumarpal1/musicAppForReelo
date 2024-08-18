@@ -130,25 +130,29 @@ export const MusicProgressBar = () => {
       <div
         className={`p-4 bg-blue-600 rounded-t-3xl shadow-2xl shadow-blue-950 fixed bottom-0 ${styles.widthOfProgresbar}`}
       >
+
         <div className='flex items-center justify-center mb-4 relative'>
           {/* Sound Control */}
-          <div className='flex items-center -rotate-90 -mt-28 left-0 fixed group'>
-            <div className='rounded-2xl active:bg-blue-900 cursor-pointer p-1' onClick={() => { volume == 0 ? setVolume(50) : setVolume(0) }}>
-              {volume == 0 ? <Volume0 className='w-6 h-6 mr-2 rotate-90' /> :
-                volume > 0 && volume < 40 ? <Volume1 className='w-6 h-6 mr-2 rotate-90' /> :
-                  volume > 40 && volume < 80 ? <Volume2 className='w-6 h-6 mr-2 rotate-90' /> :
-                    <VolumeFull className='w-6 h-6 mr-2 rotate-90' />}
-            </div>
+          <div className=' h-9 -left-10 absolute'>
+            <div className='flex items-center -rotate-90 -mt-14 -left-4 group'>
+              <div className='rounded-2xl active:bg-blue-900 cursor-pointer p-1' onClick={() => { volume == 0 ? setVolume(50) : setVolume(0) }}>
+                {volume == 0 ? <Volume0 className='w-6 h-6 mr-2 rotate-90' /> :
+                  volume > 0 && volume < 40 ? <Volume1 className='w-6 h-6 mr-2 rotate-90' /> :
+                    volume > 40 && volume < 80 ? <Volume2 className='w-6 h-6 mr-2 rotate-90' /> :
+                      <VolumeFull className='w-6 h-6 mr-2 rotate-90' />}
+              </div>
 
-            <input
-              type='range'
-              min='0'
-              max='100'
-              value={volume}
-              onChange={e => setVolume(e.target.value)}
-              className='w-24 h-2 bg-gray-700 rounded-full opacity-0 group-hover:opacity-100 cursor-pointer'
-            />
+              <input
+                type='range'
+                min='0'
+                max='100'
+                value={volume}
+                onChange={e => setVolume(e.target.value)}
+                className='w-24 h-2 bg-gray-700 rounded-full opacity-0 group-hover:opacity-100 cursor-pointer'
+              />
+            </div>
           </div>
+
 
           <button onClick={() => { dispatch(prevSong()) }} className='p-2 text-gray-400 hover:text-white active:scale-95 rounded-2xl active:bg-blue-500'>
             <Back className='w-8 h-8' />
