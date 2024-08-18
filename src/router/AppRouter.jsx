@@ -1,69 +1,58 @@
-import React from 'react'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import React from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-// import requre components 
-import { Login } from '../pages/login'
-import { Signup } from '../pages/signup'
-import { Home } from '../components/home/home'
-import { FavoriteList } from '../components/songList/favoriteList'
-import { Layout } from '../components/layout/layout'
-import { Profile } from '../components/profile/profile'
-/* import { PageNotFound } from '../components/pageNotFound/PageNotFound' */
-import { Playlist } from '../components/playlist/playlist'
-import { OtpVerification } from '../pages/OtpVerification'
-import { PlaylistSong } from '../components/playlistSong/playlistSong'
+// Import required components
+import { Login } from '../pages/login';
+import { Signup } from '../pages/signup';
+import { Home } from '../components/home/home';
+import { Profile } from '../components/profile/profile';
+import { Playlist } from '../components/playlist/playlist';
+import { OtpVerification } from '../pages/OtpVerification';
+import { PlaylistSong } from '../components/playlistSong/playlistSong';
+import { PageNotFound } from '../components/pageNotFound/PageNotFound'; // Uncomment if you have this component
+import { Layout } from '../components/layout/layout';
 
-
-const routes = createBrowserRouter(
-    [
-        {
-            path: "/",
-            element: <Layout />,
-            children: [
-                {
-                    path: "",
-                    element: <><Home/></>
-                },
-                {
-                    path: "profile",
-                    element: <Profile />
-                },
-                {
-                    path:"Playlist",
-                    element:<Playlist />
-                },
-                {
-                    path: "playlist/:id",
-                    element:<PlaylistSong />
-                },
-                {
-                    path: "*",
-                    element: <div>PageNotFound</div>//<PageNotFound /> 
-                }
-            ]
-        }, 
-        {
-            path: "/login",
-            element: <Login />
-        },
-        {
-            path: "/signup",
-            element: <Signup />
-        },
-        {
-            path:"/OtpVerification",
-            element:<OtpVerification />
-        }
-    ]
-);
-
-
+const routes = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "",
+        element: <Home />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "playlist", // Change "Playlist" to lowercase for consistency
+        element: <Playlist />,
+      },
+      {
+        path: "playlist/:id",
+        element: <PlaylistSong />,
+      },
+      {
+        path: "*",
+        element: <PageNotFound />, // Use the PageNotFound component
+      },
+    ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
+  },
+  {
+    path: "/otp-verification", // Adjusted to lowercase for consistency
+    element: <OtpVerification />,
+  },
+]);
 
 export const AppRouter = () => {
-
-    
-
-  return (
-    <RouterProvider router={routes} />
-  )
-}
+  return <RouterProvider router={routes} />;
+};

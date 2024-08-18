@@ -6,6 +6,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from "react-redux";
 import { loginUser } from "../redux/reducer/userReducer";
+import { getPlaylist } from "../redux/reducer/songReducer";
 
 export const Login = () => {
     const emailRef = useRef();
@@ -31,6 +32,7 @@ export const Login = () => {
                 // Dispatch loginUser action with user data
                 dispatch(loginUser(response.data.user));
                 localStorage.setItem('token',response.data.token); // Store the token
+                dispatch(getPlaylist())
                 toast.success("Login successful!");
                 navigate('/'); // Redirect to home page
             } else {
