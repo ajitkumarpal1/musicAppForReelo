@@ -9,8 +9,9 @@ import { Profile } from '../components/profile/profile';
 import { Playlist } from '../components/playlist/playlist';
 import { OtpVerification } from '../pages/OtpVerification';
 import { PlaylistSong } from '../components/playlistSong/playlistSong';
-import { PageNotFound } from '../components/pageNotFound/PageNotFound'; // Uncomment if you have this component
+//import { PageNotFound } from '../components/pageNotFound/PageNotFound'; 
 import { Layout } from '../components/layout/layout';
+import { Page404 } from '../components/404/Page404';
 
 const routes = createBrowserRouter([
   {
@@ -26,7 +27,7 @@ const routes = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: "playlist", // Change "Playlist" to lowercase for consistency
+        path: "playlist", 
         element: <Playlist />,
       },
       {
@@ -35,7 +36,7 @@ const routes = createBrowserRouter([
       },
       {
         path: "*",
-        element: <PageNotFound />, // Use the PageNotFound component
+        element: <Page404 />, // Use the PageNotFound component
       },
     ],
   },
