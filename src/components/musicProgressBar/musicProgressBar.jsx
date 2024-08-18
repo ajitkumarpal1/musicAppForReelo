@@ -13,9 +13,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { loopTogal, nextSong, pause, play, prevSong, setCurentTime, setCurrentProgress, setTotalTime } from '../../redux/reducer/songReducer';
 
-
-
-
 export const MusicProgressBar = () => {
   const dispatch = useDispatch();
   const isPlaying = useSelector(state => state.songReducer.play);
@@ -27,17 +24,14 @@ export const MusicProgressBar = () => {
   const [songDuration, setSongDuration] = useState('0:00');
   const [currentTime, setCurrentTime] = useState('0:00');
   const [progress, setProgress] = useState(0);
-  const start = localStorage.getItem(currentSongId) || 0
+  const [start, setStart] = useState(localStorage.getItem(currentSongId) || 0);
 
   const audioRef = useRef(null);
-  useEffect(() => {
-    // Access the environment variable
-    console.log('VITE_BASE_URL:', import.meta.env.VITE_BASE_URL);
-  }, []);
-  
+
   useEffect(() => {
     if (currentSongId) {
       const token = localStorage.getItem('token');
+      setStart(localStorage.getItem(currentSongId) || 0)
       axios
         .get(`${import.meta.env.VITE_BASE_URL}/api/song/song-by-id/${currentSongId}`, {
           headers: {
@@ -65,30 +59,6 @@ export const MusicProgressBar = () => {
     }
   }, [isPlaying, volume]);
 
-  useEffect(() => {
-    const audioElement = audioRef.current;
-
-    const handlePlay = () => {
-      dispatch(play());
-    };
-
-    const handlePause = () => {
-      dispatch(pause());
-    };
-
-    if (audioElement) {
-      audioElement.addEventListener('play', handlePlay);
-      audioElement.addEventListener('pause', handlePause);
-    }
-
-    return () => {
-      if (audioElement) {
-        audioElement.removeEventListener('play', handlePlay);
-        audioElement.removeEventListener('pause', handlePause);
-      }
-    };
-  }, [dispatch]);
-
   const formatTime = seconds => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
@@ -98,9 +68,9 @@ export const MusicProgressBar = () => {
   const handleLoadedMetadata = () => {
     if (audioRef.current) {
       const duration = audioRef.current.duration;
-      const ft = formatTime(duration)
-      setSongDuration(ft);
-      dispatch(setTotalTime(ft))
+      const formattedDuration = formatTime(duration);
+      setSongDuration(formattedDuration);
+      dispatch(setTotalTime(formattedDuration));
     }
   };
 
@@ -111,19 +81,33 @@ export const MusicProgressBar = () => {
 
       localStorage.setItem(currentSongId, current);
 
-      // Check if the current time equals the duration
       if (current >= duration) {
         localStorage.removeItem(currentSongId);
         if (loop) {
-          dispatch(nextSong(currentSongId))
+          dispatch(nextSong(currentSongId));
         }
       }
 
-      const ft = formatTime(current);
-      setCurrentTime(ft);
-      dispatch(setCurentTime(ft));
+      const formattedTime = formatTime(current);
+      setCurrentTime(formattedTime);
+      dispatch(setCurentTime(formattedTime));
       setProgress((current / duration) * 100);
       dispatch(setCurrentProgress((current / duration) * 100));
+    }
+  };
+
+  const handleProgressChange = e => {
+    const newProgress = e.target.value;
+    setProgress(newProgress);
+
+    if (audioRef.current) {
+      const duration = audioRef.current.duration;
+      const newTime = (newProgress / 100) * duration;
+      audioRef.current.currentTime = newTime;
+
+      const formattedTime = formatTime(newTime);
+      setCurrentTime(formattedTime);
+      dispatch(setCurentTime(formattedTime));
     }
   };
 
@@ -136,7 +120,6 @@ export const MusicProgressBar = () => {
           autoPlay={isPlaying}
           onLoadedMetadata={handleLoadedMetadata}
           onTimeUpdate={handleTimeUpdate}
-          className='z-50 fixed top-5 outline'
         >
           <source src={songData.preview + "#t=" + start} type='audio/ogg' />
           <source src={songData.preview + "#t=" + start} type='audio/mpeg' />
@@ -147,7 +130,6 @@ export const MusicProgressBar = () => {
       <div
         className={`p-4 bg-blue-600 rounded-t-3xl shadow-2xl shadow-blue-950 fixed bottom-0 ${styles.widthOfProgresbar}`}
       >
-        {/* Controls */}
         <div className='flex items-center justify-center mb-4 relative'>
           {/* Sound Control */}
           <div className='flex items-center -rotate-90 -mt-28 left-0 fixed group'>
@@ -167,13 +149,11 @@ export const MusicProgressBar = () => {
               className='w-24 h-2 bg-gray-700 rounded-full opacity-0 group-hover:opacity-100 cursor-pointer'
             />
           </div>
-          {/* Previous Button */}
 
           <button onClick={() => { dispatch(prevSong()) }} className='p-2 text-gray-400 hover:text-white active:scale-95 rounded-2xl active:bg-blue-500'>
             <Back className='w-8 h-8' />
           </button>
 
-          {/* Play/Pause Button */}
           {isPlaying ? (
             <button
               onClick={() => dispatch(pause())}
@@ -192,12 +172,10 @@ export const MusicProgressBar = () => {
             </button>
           )}
 
-          {/* Next Button */}
           <button onClick={() => { dispatch(nextSong(currentSongId)) }} className='p-2 text-gray-400 hover:text-white rounded-2xl active:scale-95 active:bg-blue-500'>
             <Forward className='w-8 h-8' />
           </button>
 
-          {/* Loop Button */}
           <div onClick={() => { dispatch(loopTogal()) }} className={`absolute right-0 top-1/2 transform -translate-y-1/2 rounded-2xl ${loop && 'bg-blue-500'}`}>
             <button className='p-2 text-gray-400 hover:text-white'>
               <Loop className='w-6 h-6' />
@@ -205,17 +183,28 @@ export const MusicProgressBar = () => {
           </div>
         </div>
 
-        {/* Progress Bar Container */}
-        <div className='relative h-2 bg-gray-700 rounded-full mb-4'>
-          {/* Filled Progress */}
-          <div
-            id='progress'
-            className='absolute h-full bg-green-500 rounded-full'
-            style={{ width: `${progress}%` }}
+        {/* Controllable Progress Bar */}
+        <div className='group relative'>
+          <div className='relative h-2 bg-gray-700 rounded-full mb-4'>
+            {/* Filled Progress */}
+            <div
+              id='progress'
+              className='absolute h-full bg-green-500 rounded-full'
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+
+          <input
+            type='range'
+            min='0'
+            max='100'
+            value={progress}
+            onChange={handleProgressChange}
+            className='absolute inset-0 opacity-0 group-hover:opacity-100 w-full h-2 bg-gray-700 rounded-full cursor-pointer transition-opacity duration-300'
           />
         </div>
 
-        {/* Time Display */}
+
         <div className='flex justify-between text-sm text-gray-400'>
           <span id='current-time'>{currentTime}</span>
           {songData?.title}
