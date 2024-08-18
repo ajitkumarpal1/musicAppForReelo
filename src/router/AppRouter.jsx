@@ -9,9 +9,8 @@ import { Profile } from '../components/profile/profile';
 import { Playlist } from '../components/playlist/playlist';
 import { OtpVerification } from '../pages/OtpVerification';
 import { PlaylistSong } from '../components/playlistSong/playlistSong';
-//import { PageNotFound } from '../components/pageNotFound/PageNotFound'; 
 import { Layout } from '../components/layout/layout';
-import { Page404 } from '../components/404/Page404';
+import { Page404 } from '../components/404/Page404'; // Ensure this component is correctly imported
 
 const routes = createBrowserRouter([
   {
@@ -34,9 +33,10 @@ const routes = createBrowserRouter([
         path: "playlist/:id",
         element: <PlaylistSong />,
       },
+      // The catch-all route for handling 404s should be placed here
       {
         path: "*",
-        element: <Page404 />, // Use the PageNotFound component
+        element: <Page404 />,
       },
     ],
   },
@@ -49,8 +49,13 @@ const routes = createBrowserRouter([
     element: <Signup />,
   },
   {
-    path: "/otp-verification", // Adjusted to lowercase for consistency
+    path: "/otp-verification", // Consistent with the adjusted path
     element: <OtpVerification />,
+  },
+  // Probably it would never call🙄 Catch-all route for handling 404s 
+  {
+    path: "*",
+    element: <Page404 />,
   },
 ]);
 

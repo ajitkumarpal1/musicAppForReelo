@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../redux/reducer/userReducer';
+import avtar from '../../assets/imgs/avatar.png'
 
 
 
@@ -27,7 +28,7 @@ export const Profile = () => {
         {/* Profile Picture */}
         <div className="flex flex-col items-center mb-4">
           <img
-            src="https://image.tmdb.org/t/p/w1280/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg"
+            src={avtar}
             alt="Profile"
             className="w-32 h-32 rounded-full border-4 border-green-500"
           />

@@ -27,7 +27,7 @@ export const Playlist = () => {
             {status === 'succeeded' && (
                 <div className="space-y-4">
                     {playList.map((playlist) => (
-                        <Link to={"/playList/"+playlist._id}  key={playlist._id} className="flex items-center justify-between p-2 bg-blue-600 rounded-lg hover:bg-gray-600">
+                        <Link to={"/playlist/"+playlist._id}  key={playlist._id} className="flex items-center justify-between p-2 bg-blue-600 rounded-lg hover:bg-gray-600">
                             <div className="flex items-center">
                                 <div className="p-2 bg-green-500 rounded-full">
                                     <svg
