@@ -188,7 +188,7 @@ export const MusicProgressBar = () => {
         </div>
 
         {/* Controllable Progress Bar */}
-        <div className='group relative'>
+        <div className='relative'>
           <div className='relative h-2 bg-gray-700 rounded-full mb-4'>
             {/* Filled Progress */}
             <div
@@ -204,7 +204,7 @@ export const MusicProgressBar = () => {
             max='100'
             value={progress}
             onChange={handleProgressChange}
-            className='absolute inset-0 opacity-0 group-hover:opacity-100 w-full h-2 bg-gray-700 rounded-full cursor-pointer transition-opacity duration-300'
+            className='absolute inset-0 opacity-0 w-full h-2 bg-gray-700 rounded-full cursor-pointer transition-opacity duration-300'
           />
         </div>
 
